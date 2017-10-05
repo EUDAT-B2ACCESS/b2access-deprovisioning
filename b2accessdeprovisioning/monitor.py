@@ -12,6 +12,15 @@ from b2accessdeprovisioning.configparser import config
 from b2accessdeprovisioning.user import User
 from b2accessdeprovisioning.notifier import MailNotifier
 
+DEFAULT_API_PATH = 'rest-admin'
+DEFAULT_API_VERSION = 'v1'
+DEFAULT_API_CERT_VERIFY = True
+DEFAULT_NOTIFICATION_EMAIL_HOST = 'localhost'
+DEFAULT_NOTIFICATION_EMAIL_PORT = 25
+DEFAULT_NOTIFICATION_EMAIL_USE_TLS = False
+DEFAULT_LOG_LEVEL = 'WARNING'
+DEFAULT_DRY_RUN = False
+
 logger = logging.getLogger(__name__)
 if 'log_level' in config:
     logging.basicConfig(level=logging.getLevelName(config['log_level']))
