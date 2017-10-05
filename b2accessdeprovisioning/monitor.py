@@ -11,27 +11,36 @@ from unityapiclient.client import UnityApiClient
 from b2accessdeprovisioning.configparser import config
 from b2accessdeprovisioning.user import User
 from b2accessdeprovisioning.notifier import MailNotifier
+import b2accessdeprovisioning.util as util
+
+DEFAULT_API_PATH = 'rest-admin'
+DEFAULT_API_VERSION = 'v1'
+DEFAULT_API_CERT_VERIFY = True
+DEFAULT_NOTIFICATION_EMAIL_HOST = 'localhost'
+DEFAULT_NOTIFICATION_EMAIL_PORT = 25
+DEFAULT_NOTIFICATION_EMAIL_USE_TLS = False
+DEFAULT_LOG_LEVEL = 'WARNING'
+DEFAULT_DRY_RUN = False
 
 logger = logging.getLogger(__name__)
-if 'log_level' in config:
-    logging.basicConfig(level=logging.getLevelName(config['log_level']))
+logging.basicConfig(level=logging.getLevelName(util.safeget(config['log_level'] or DEFAULT_LOG_LEVEL)))
 
 b2access = UnityApiClient(
-    config['api']['base_url'],
-    auth=(config['api']['user'], config['api']['password']),
-    cert_verify=config['api']['cert_verify'])
+    util.safeget(config['api']['base_url']),
+    rest_admin_path=(util.safeget(config['api']['path']) or DEFAULT_API_PATH),
+    api_version=(util.safeget(config['api']['version']) or DEFAULT_API_VERSION),
+    auth=(util.safeget(config['api']['user']), util.safeget(config['api']['password'])),
+    cert_verify=util.safeget(config['api']['cert_verify'] or DEFAULT_API_CERT_VERIFY))
 
 notifier = MailNotifier(
-    host=config['notifications']['email']['host'],
-    port=config['notifications']['email']['port'],
-    use_tls=config['notifications']['email']['use_tls'],
-    user=config['notifications']['email']['user'],
-    password=config['notifications']['email']['password'])
+    host=util.safeget(config['notifications']['email']['host'] or DEFAULT_NOTIFICATION_EMAIL_HOST),
+    port=util.safeget(config['notifications']['email']['port'] or DEFAULT_NOTIFICATION_EMAIL_PORT),
+    use_tls=util.safeget(config['notifications']['email']['use_tls'] or DEFAULT_NOTIFICATION_EMAIL_USE_TLS),
+    user=util.safeget(config['notifications']['email']['user']),
+    password=util.safeget(config['notifications']['email']['password']))
 
-if 'dry_run' in config:
-    dry_run = config['dry_run']
-else:
-    dry_run = False
+dry_run = util.safeget(config['dry_run'] or DEFAULT_DRY_RUN)
+
 
 def main():
     groups = b2access.get_group()
@@ -58,7 +67,7 @@ def main():
 
 
 def _remove_user_attrs(user):
-    attr_whitelist = config['attr_whitelist']
+    attr_whitelist = util.safeget(config['attr_whitelist'])
 
     attrs = b2access.get_entity_attrs(user.internal_id, effective=False)
     for attr in attrs:
@@ -71,7 +80,7 @@ def _remove_user_attrs(user):
 
 
 def _schedule_user_removal(user):
-    when = datetime.utcnow() + timedelta(days=config['retention_period'])
+    when = datetime.utcnow() + timedelta(days=util.safeget(config['retention_period']))
     logger.debug("scheduling removal of entity '%s' at '%s'",
                 user.internal_id, when)
     if not dry_run:
@@ -94,17 +103,17 @@ def _send_notification(users=[]):
     attachments.append(attachment)
     logger.debug("sending email notification from address '%s' to '%s' "
         "with subject '%s' and attachment users.json:\n%s",
-                config['notifications']['email']['from'],
-                config['notifications']['email']['to'],
-                config['notifications']['email']['subject'],
+                util.safeget(config['notifications']['email']['from']),
+                util.safeget(config['notifications']['email']['to']),
+                util.safeget(config['notifications']['email']['subject']),
                 attachment['message'])
     if not dry_run:
-        notifier.send(config['notifications']['email']['from'], 
-                      config['notifications']['email']['to'],
-                      config['notifications']['email']['subject'], 
-                      config['notifications']['email']['intro_text'],
-                      attachments)
+        notifier.send(util.safeget(config['notifications']['email']['from']), 
+                  util.safeget(config['notifications']['email']['to']),
+                  util.safeget(config['notifications']['email']['subject']), 
+                  util.safeget(config['notifications']['email']['intro_text']),
+                  attachments)
 
 
 if __name__ == "__main__":
-    main()
+main()
