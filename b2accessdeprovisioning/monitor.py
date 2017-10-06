@@ -60,10 +60,21 @@ def main():
             continue
         user = User(internal_id=member_id)
         users.append(user)
+        # Get user's shared ID
         for identity in entity['identities']:
             if identity['typeId'] == 'persistent':
                 user.shared_id = identity['value']
                 break
+
+        # Get user's email
+        email = []
+        attrs = b2access.get_entity_attrs(member_id, effective=False)
+        for attr in attrs:
+            if ('name' in attr and attr['name'] == 'email'):
+                email = attr['values']
+                break
+        user.email = email
+
 
     for user in users:
         _remove_user_attrs(user)
@@ -99,7 +110,7 @@ def _send_notification(users=[]):
     account_details = []
     for user in users:
         if user.shared_id is not None:
-            account_details.append({'id': user.shared_id})
+            account_details.append({'id': user.shared_id, 'email': user.email})
     if not account_details:
         return
     attachments = []
