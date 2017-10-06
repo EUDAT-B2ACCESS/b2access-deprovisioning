@@ -40,8 +40,8 @@ notifier = MailNotifier(
     host=(util.safeget(config, 'notifications', 'email', 'host') or DEFAULT_NOTIFICATION_EMAIL_HOST),
     port=(util.safeget(config, 'notifications', 'email', 'port') or DEFAULT_NOTIFICATION_EMAIL_PORT),
     use_tls=(util.safeget(config, 'notifications', 'email', 'use_tls') or DEFAULT_NOTIFICATION_EMAIL_USE_TLS),
-    user=util.safeget(config, 'notifications', 'email', 'user'),
-    password=util.safeget(config, 'notifications', 'email', 'password'))
+    user=config['notifications']['email']['user'],
+    password=config['notifications']['email']['password'])
 
 dry_run = (util.safeget(config, 'dry_run') or DEFAULT_DRY_RUN)
 
@@ -83,7 +83,7 @@ def _remove_user_attrs(user):
             logger.debug("removing attribute '%s' from entity '%s'",
                         attr['name'], user.internal_id)
             if not dry_run:
-                b2access.remove_entity_attr(user.internal_id, attr['name'], attr['email'])
+                b2access.remove_entity_attr(user.internal_id, attr['name'])
 
 
 def _schedule_user_removal(user):
@@ -116,10 +116,10 @@ def _send_notification(users=[]):
                 attachment['message'])
     if not dry_run:
         notifier.send(email_from, 
-                  email_to,
-                  (util.safeget(config, 'notifications', 'email', 'subject') or DEFAULT_NOTIFICATION_EMAIL_SUBJECT),
-                  (util.safeget(config, 'notifications', 'email', 'intro_text') or DEFAULT_NOTIFICATION_EMAIL_INTRO_TEXT),
-                  attachments)
+                      email_to,
+                      (util.safeget(config, 'notifications', 'email', 'subject') or DEFAULT_NOTIFICATION_EMAIL_SUBJECT),
+                      (util.safeget(config, 'notifications', 'email', 'intro_text') or DEFAULT_NOTIFICATION_EMAIL_INTRO_TEXT),
+                      attachments)
 
 
 if __name__ == "__main__":
