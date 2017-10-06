@@ -40,8 +40,8 @@ notifier = MailNotifier(
     host=(util.safeget(config, 'notifications', 'email', 'host') or DEFAULT_NOTIFICATION_EMAIL_HOST),
     port=(util.safeget(config, 'notifications', 'email', 'port') or DEFAULT_NOTIFICATION_EMAIL_PORT),
     use_tls=(util.safeget(config, 'notifications', 'email', 'use_tls') or DEFAULT_NOTIFICATION_EMAIL_USE_TLS),
-    user=config['notifications']['email']['user'],
-    password=config['notifications']['email']['password'])
+    user=util.safeget(config, 'notifications', 'email', 'user'),
+    password=util.safeget(config, 'notifications', 'email', 'password'))
 
 dry_run = (util.safeget(config, 'dry_run') or DEFAULT_DRY_RUN)
 
