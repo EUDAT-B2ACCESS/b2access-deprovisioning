@@ -30,10 +30,10 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=(logging.getLevelName(util.safeget(config, 'log_level')) or DEFAULT_LOG_LEVEL))
 
 b2access = UnityApiClient(
-    util.safeget(config, 'api', 'base_url'),
+    config['api']['base_url'],
     rest_admin_path=(util.safeget(config, 'api', 'path') or DEFAULT_API_PATH),
     api_version=(util.safeget(config, 'api', 'version') or DEFAULT_API_VERSION),
-    auth=(util.safeget(config, 'api', 'user'), util.safeget(config, 'api', 'password')),
+    auth=(config['api']['user'], config['api']['password']),
     cert_verify=(util.safeget(config, 'api', 'cert_verify') or DEFAULT_API_CERT_VERIFY))
 
 notifier = MailNotifier(
