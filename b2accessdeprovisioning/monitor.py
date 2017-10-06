@@ -65,7 +65,6 @@ def main():
             if identity['typeId'] == 'persistent':
                 user.shared_id = identity['value']
                 break
-
         # Get user's email
         email = []
         attrs = b2access.get_entity_attrs(member_id, effective=False)
@@ -74,7 +73,6 @@ def main():
                 email = attr['values']
                 break
         user.email = email
-
 
     for user in users:
         _remove_user_attrs(user)
