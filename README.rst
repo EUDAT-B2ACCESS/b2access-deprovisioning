@@ -63,20 +63,20 @@ Example ``config.yml``
       user: "unity_user"
       password: "unity_password"
       cert_verify: True
-    
+
     # List of attributes that should be saved when removing user information.
     # Attributes not listed here will be immediately removed upon user
     # deprovisioning.
     attr_whitelist: []
-    
+
     # Duration of time for which the records of deprovisioned users should be
     # maintained (in days). After that period all information about the
     # deprovisioned users will be permanently removed.
     retention_period: 365
-    
+
     # Notification settings
     notifications:
-      email:
+      email: 
         # SMTP host to connect to. Defaults to the local host if empty.
         host: "smtp.example.eu"
         # SMTP port to connect to. Defaults to the standard SMTP port (25) if empty.
@@ -93,8 +93,19 @@ Example ``config.yml``
         to:
           - "SP1 Operator <admin@sp1.eudat.eu>"
           - "SP2 Operator <admin@sp2.eudat.eu>"
+          - "SP3 Operator <admin@sp3.eudat.eu>"
         subject: "Deprovisioned B2ACCESS accounts"
         intro_text: "See attachment for details of deprovisioned B2ACCESS accounts.\n\nNote: This is an automated email, please don't reply."
+
+    # (Optional) The group of users to check for disabled user accounts.
+    # Defaults to the ROOT group
+    #user_group: "testGroup"
+
+    # Logging level: CRITICAL, ERROR, WARNING, INFO, or DEBUG. Defaults to WARNING.
+    log_level: "WARNING"
+
+    # Determines if changes will be made if needed
+    dry_run: False
       
 See also ``config.yml.example``.
 
@@ -114,16 +125,59 @@ Example notification
 
 Information about the deprovisioned user accounts is sent via an email attachment in json format (``users.json``):
 
+Example 1: One email address
 .. code-block:: json
 
     [
         {
+            "email": [
+                "email1@example.com"
+            ],
             "id": "3f3d5b40-26ce-45db-808a-a5ca3a4e7515"
         },
         {
+            "email": [
+                "email2@example.com"
+            ],
             "id": "663a5b04-62ec-9d3b-078b-5ac3a4ae5733"
         }
     ]
+
+Example 2: Multiple email addresses
+.. code-block:: json
+
+    [
+        {
+            "email": [
+                "email1@example.com",
+                "email2@example.com"
+            ],
+            "id": "3f3d5b40-26ce-45db-808a-a5ca3a4e7515"
+        },
+        {
+            "email": [
+                "email3@example.com",
+                "email4@example.com",
+                "email5@example.com"
+            ],
+            "id": "663a5b04-62ec-9d3b-078b-5ac3a4ae5733"
+        }
+    ]
+
+Example 3: no email address
+.. code-block:: json
+
+    [
+        {
+            "email": null,
+            "id": "3f3d5b40-26ce-45db-808a-a5ca3a4e7515"
+        },
+        {
+            "email": null,
+            "id": "663a5b04-62ec-9d3b-078b-5ac3a4ae5733"
+        }
+    ]
+
 
 Documentation
 -------------
