@@ -59,7 +59,8 @@ email_to = config['notifications']['email']['to']
 
 
 def main():
-    groups = b2access.get_group()
+    user_group = util.safeget(config, 'user_group')
+    groups = b2access.get_group(user_group)
     users = []
     for member_id in groups['members']:
         entity = b2access.get_entity(member_id)
