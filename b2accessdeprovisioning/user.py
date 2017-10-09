@@ -14,3 +14,5 @@ class User(object):
             self.internal_id = kwargs['internal_id']
         if 'shared_id' in kwargs:
             self.shared_id = kwargs['shared_id']
+        if 'email' in kwargs:
+            self.email = kwargs['email']
