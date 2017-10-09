@@ -126,6 +126,7 @@ Example notification
 Information about the deprovisioned user accounts is sent via an email attachment in json format (``users.json``):
 
 Example 1: One email address
+
 .. code-block:: json
 
     [
@@ -144,6 +145,7 @@ Example 1: One email address
     ]
 
 Example 2: Multiple email addresses
+
 .. code-block:: json
 
     [
@@ -165,6 +167,7 @@ Example 2: Multiple email addresses
     ]
 
 Example 3: no email address
+
 .. code-block:: json
 
     [
