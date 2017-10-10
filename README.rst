@@ -125,61 +125,27 @@ Example notification
 
 Information about the deprovisioned user accounts is sent via an email attachment in json format (``users.json``):
 
-Example 1: One email address
-
 .. code-block:: json
 
-    [
-        {
-            "email": [
-                "email1@example.com"
-            ],
-            "id": "3f3d5b40-26ce-45db-808a-a5ca3a4e7515"
-        },
-        {
-            "email": [
-                "email2@example.com"
-            ],
-            "id": "663a5b04-62ec-9d3b-078b-5ac3a4ae5733"
-        }
-    ]
-
-Example 2: Multiple email addresses
-
-.. code-block:: json
-
-    [
-        {
-            "email": [
-                "email1@example.com",
-                "email2@example.com"
-            ],
-            "id": "3f3d5b40-26ce-45db-808a-a5ca3a4e7515"
-        },
-        {
-            "email": [
-                "email3@example.com",
-                "email4@example.com",
-                "email5@example.com"
-            ],
-            "id": "663a5b04-62ec-9d3b-078b-5ac3a4ae5733"
-        }
-    ]
-
-Example 3: no email address
-
-.. code-block:: json
-
-    [
-        {
-            "email": null,
-            "id": "3f3d5b40-26ce-45db-808a-a5ca3a4e7515"
-        },
-        {
-            "email": null,
-            "id": "663a5b04-62ec-9d3b-078b-5ac3a4ae5733"
-        }
-    ]
+[
+    {
+        "email": [
+            "email1@example.com"
+        ],
+        "id": "3f3d5b40-26ce-45db-808a-a5ca3a4e7515"
+    },
+    {
+        "email": [
+            "email2@example.com",
+            "email3@example.com"
+        ],
+        "id": "663a5b04-62ec-9d3b-078b-546734ae5733"
+    },
+    {
+        "email": null,
+        "id": "983d5b41-abdg-45dc-808b-64633a4e7516"
+    }
+]
 
 
 Documentation
