@@ -12,4 +12,4 @@ except ImportError:
 
 logging.getLogger(__name__).addHandler(NullHandler())
 
-__version__ = "1.0.0.dev0"
+__version__ = "1.0.0"

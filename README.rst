@@ -147,6 +147,13 @@ Information about the deprovisioned user accounts is sent via an email attachmen
         }
     ]
 
+Run on background
+-----------------
+In order to run the script on background, you need to create a job schedule. This cron command runs the script every 24th hour.
+
+.. code-block:: bash
+
+    $ 0 */24 * * * cd <path-to-repo> && python -m b2accessdeprovisioning.monitor
 
 Documentation
 -------------
