@@ -1,20 +1,17 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>b2accessdeprovisioning &#8212; b2accessdeprovisioning 0.9.0 documentation</title>
-    
+    <title>b2accessdeprovisioning &#8212; b2accessdeprovisioning 1.0.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.9.0',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -34,7 +31,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -46,7 +43,7 @@
 <h1>b2accessdeprovisioning<a class="headerlink" href="#b2accessdeprovisioning" title="Permalink to this headline">¶</a></h1>
 <a class="reference external image-reference" href="https://pypi.python.org/pypi/b2accessdeprovisioning"><img alt="https://img.shields.io/pypi/v/b2accessdeprovisioning.svg" src="https://img.shields.io/pypi/v/b2accessdeprovisioning.svg" /></a>
 <p>A Python tool for handling the (de)provisioning of B2ACCESS user accounts.</p>
-<p>The b2accessdeprovisioning tool can be used to retrieve the list of permanently disabled B2ACCESS user accounts via Unity&#8217;s Administration API. For each of the disabled accounts, the tool performs the following operations:</p>
+<p>The b2accessdeprovisioning tool can be used to retrieve the list of permanently disabled B2ACCESS user accounts via Unity’s Administration API. For each of the disabled accounts, the tool performs the following operations:</p>
 <ol class="arabic simple">
 <li>immediate removal of assigned attributes (excluding user identifiers)</li>
 <li>scheduled removal of all account information after a given period of time</li>
@@ -55,7 +52,7 @@
 <div class="section" id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>B2ACCESS integration via Unity&#8217;s Administration API v1</li>
+<li>B2ACCESS integration via Unity’s Administration API v1</li>
 <li>Attribute whitelisting to indicate information that should be saved when removing account data; otherwise the tool removes all attributes assigned to permanently disabled B2ACCESS user accounts</li>
 <li>Adjustable duration of time for which the records of deprovisioned users should be maintained</li>
 <li>Email notifications via SMTP containing deprovisioned account information in json format</li>
@@ -126,8 +123,19 @@
     <span class="l l-Scalar l-Scalar-Plain">to</span><span class="p p-Indicator">:</span>
       <span class="p p-Indicator">-</span> <span class="s">&quot;SP1</span><span class="nv"> </span><span class="s">Operator</span><span class="nv"> </span><span class="s">&lt;admin@sp1.eudat.eu&gt;&quot;</span>
       <span class="p p-Indicator">-</span> <span class="s">&quot;SP2</span><span class="nv"> </span><span class="s">Operator</span><span class="nv"> </span><span class="s">&lt;admin@sp2.eudat.eu&gt;&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;SP3</span><span class="nv"> </span><span class="s">Operator</span><span class="nv"> </span><span class="s">&lt;admin@sp3.eudat.eu&gt;&quot;</span>
     <span class="l l-Scalar l-Scalar-Plain">subject</span><span class="p p-Indicator">:</span> <span class="s">&quot;Deprovisioned</span><span class="nv"> </span><span class="s">B2ACCESS</span><span class="nv"> </span><span class="s">accounts&quot;</span>
     <span class="l l-Scalar l-Scalar-Plain">intro_text</span><span class="p p-Indicator">:</span> <span class="s">&quot;See</span><span class="nv"> </span><span class="s">attachment</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">details</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">deprovisioned</span><span class="nv"> </span><span class="s">B2ACCESS</span><span class="nv"> </span><span class="s">accounts.\n\nNote:</span><span class="nv"> </span><span class="s">This</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">an</span><span class="nv"> </span><span class="s">automated</span><span class="nv"> </span><span class="s">email,</span><span class="nv"> </span><span class="s">please</span><span class="nv"> </span><span class="s">don&#39;t</span><span class="nv"> </span><span class="s">reply.&quot;</span>
+
+<span class="c1"># (Optional) The group of users to check for disabled user accounts.</span>
+<span class="c1"># Defaults to the ROOT group</span>
+<span class="c1">#user_group: &quot;testGroup&quot;</span>
+
+<span class="c1"># Logging level: CRITICAL, ERROR, WARNING, INFO, or DEBUG. Defaults to WARNING.</span>
+<span class="l l-Scalar l-Scalar-Plain">log_level</span><span class="p p-Indicator">:</span> <span class="s">&quot;WARNING&quot;</span>
+
+<span class="c1"># Determines if changes will be made if needed</span>
+<span class="l l-Scalar l-Scalar-Plain">dry_run</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
 </pre></div>
 </div>
 <p>See also <code class="docutils literal"><span class="pre">config.yml.example</span></code>.</p>
@@ -145,14 +153,32 @@
 <p>Information about the deprovisioned user accounts is sent via an email attachment in json format (<code class="docutils literal"><span class="pre">users.json</span></code>):</p>
 <div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="p">{</span>
+        <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;email1@example.com&quot;</span>
+        <span class="p">],</span>
         <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;3f3d5b40-26ce-45db-808a-a5ca3a4e7515&quot;</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;663a5b04-62ec-9d3b-078b-5ac3a4ae5733&quot;</span>
+        <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;email2@example.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email3@example.com&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;663a5b04-62ec-9d3b-078b-546734ae5733&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;983d5b41-abdg-45dc-808b-64633a4e7516&quot;</span>
     <span class="p">}</span>
 <span class="p">]</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="section" id="run-on-background">
+<h2>Run on background<a class="headerlink" href="#run-on-background" title="Permalink to this headline">¶</a></h2>
+<p>In order to run the script on background, you need to create a job schedule. This cron command runs the script every 24th hour.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ <span class="m">0</span> */24 * * * <span class="nb">cd</span> &lt;path-to-repo&gt; <span class="o">&amp;&amp;</span> python -m b2accessdeprovisioning.monitor
+</pre></div>
 </div>
 </div>
 </div>
@@ -197,6 +223,7 @@
 <li><a class="reference internal" href="#example-notification">Example notification</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#run-on-background">Run on background</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#reference">Reference</a></li>
