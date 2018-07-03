@@ -39,3 +39,13 @@ notifications:
       - "SP3 Operator <admin@sp3.eudat.eu>"
     subject: "Deprovisioned B2ACCESS accounts"
     intro_text: "See attachment for details of deprovisioned B2ACCESS accounts.\n\nNote: This is an automated email, please don't reply."
+
+# (Optional) The group of users to check for disabled user accounts.
+# Defaults to the ROOT group
+#user_group: "testGroup"
+
+# Logging level: CRITICAL, ERROR, WARNING, INFO, or DEBUG. Defaults to WARNING.
+log_level: "WARNING"
+
+# Determines if changes will be made if needed
+dry_run: False

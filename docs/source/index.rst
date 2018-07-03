@@ -155,12 +155,21 @@ In order to run the script on background, you need to create a job schedule. Thi
 
     $ 0 */24 * * * cd <path-to-repo> && python -m b2accessdeprovisioning.monitor
 
-Documentation
--------------
+Reference
+=========
 
-Documentation is available at http://eudat-b2access.github.io/b2access-deprovisioning 
+.. toctree::
+   :maxdepth: 2
 
-License
--------
+   configparser
+   monitor
+   notifier
+   user
 
-Licensed under the Apache 2.0 license, for details see `LICENSE`.
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
